@@ -15,14 +15,14 @@ const Login = () => {
   useEffect(() => {
     const code = window.location.search.replace(/\??code=/, '')
     if (code) {
-      return globalActions.api.getToken(code)
+      globalActions.api.getToken(code)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (repos) {
     window.location.href = '/repos'
-    return
+    return null
   }
 
   return (

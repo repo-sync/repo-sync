@@ -19,7 +19,7 @@ function App () {
   useEffect(() => {
     const token = window.localStorage.getItem('token')
     if (token) {
-      return globalActions.api.getRepos(token)
+      globalActions.api.getRepos(token)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
