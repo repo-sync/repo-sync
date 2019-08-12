@@ -71,15 +71,15 @@ const SelectRepos = () => {
           <StyledOcticon icon={GitCompare} color='gray.6' />
         </Text>
         {/* <RepoSelecter /> */}
-        <TextInput name='destination-repo' placeholder='Destination Repository' list='repos' autocomplete={false} required />
-        <TextInput name='destination-repo-branch' placeholder='Destination Branch' autocomplete={false} required />
+        <TextInput name='destination-repo' placeholder='Destination Repository' list='repos' required />
+        <TextInput name='destination-repo-branch' placeholder='Destination Branch' required />
         <Text mx={3}>
           <StyledOcticon icon={ArrowLeft} color='gray.6' />
         </Text>
-        <TextInput name='source-repo' placeholder='Source Repository' list='repos' autocomplete={false} required />
-        <TextInput name='source-repo-branch' placeholder='Source Branch' autocomplete={false} required />
+        <TextInput name='source-repo' placeholder='Source Repository' list='repos' required />
+        <TextInput name='source-repo-branch' placeholder='Source Branch' required />
         <datalist id='repos'>
-          {repos.map(r => <option>{r.full_name}</option>)}
+          {repos.map(r => <option key={r.full_name}>{r.full_name}</option>)}
         </datalist>
         <ButtonPrimary type='submit' ml={3}><StyledOcticon icon={Play} mr={1} /> Generate workflow</ButtonPrimary>
       </BorderBox>
