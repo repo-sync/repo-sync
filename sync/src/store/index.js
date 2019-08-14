@@ -6,7 +6,7 @@ import * as actions from '../actions'
 const initialState = {
   profile: null,
   repos: null,
-  token: window.localStorage.getItem('token') || null
+  token: window.sessionStorage.getItem('token') || null
 }
 
 const useGlobal = useGlobalHook(React, initialState, actions)

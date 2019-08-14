@@ -10,21 +10,22 @@ const getWorkflowFile = workflowConfig =>
 on:
   schedule:
   - cron: "*/15 * * * *"
-  
+
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: repo-sync
-      uses: wei/github-sync@master
+    - uses: wei/github-sync@master
+      name: repo-sync
       env:
         SOURCE_REPO: "${workflowConfig.sourceRepo}"
         SOURCE_BRANCH: "${workflowConfig.sourceRepoBranch}"
         DESTINATION_BRANCH: "${workflowConfig.destinationRepoBranch}"
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH:$DESTINATION_BRANCH`
+        args: $SOURCE_REPO $SOURCE_BRANCH:$DESTINATION_BRANCH
+`
 
 const SelectRepos = () => {
   const [globalState, globalActions] = useGlobal()
