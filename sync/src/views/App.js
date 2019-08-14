@@ -17,7 +17,7 @@ function App () {
   const [, globalActions] = useGlobal()
 
   useEffect(() => {
-    const token = window.localStorage.getItem('token')
+    const token = window.sessionStorage.getItem('token')
     if (token) {
       globalActions.api.getRepos(token)
     }

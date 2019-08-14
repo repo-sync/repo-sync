@@ -18,11 +18,11 @@ export const getToken = async (store, code) => {
   )
   const { token } = response.data || {}
   if (token) {
-    window.localStorage.setItem('token', token)
+    window.sessionStorage.setItem('token', token)
     store.setState({ token })
     getRepos(store, token)
   } else {
-    window.localStorage.removeItem('token')
+    window.sessionStorage.removeItem('token')
     window.location.href = '/login'
   }
 }
@@ -39,7 +39,7 @@ export const getRepos = async (store, token) => {
   } catch (error) {
     console.error(error)
     store.setState({ profile: null })
-    window.localStorage.removeItem('token')
+    window.sessionStorage.removeItem('token')
     window.location.href = '/login'
   }
 }
