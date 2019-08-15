@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Box, BorderBox, Heading, Text, StyledOcticon, ButtonPrimary, BranchName, Label, Flash, TextInput } from '@primer/components'
+import { Box, BorderBox, Heading, Text, Link, StyledOcticon, ButtonPrimary, BranchName, Label, Flash, TextInput } from '@primer/components'
 import { GitCompare, ArrowLeft, Play, FileCode } from '@primer/octicons-react'
 
 import useGlobal from '../store'
 
-const getWorkflowFile = workflowConfig =>
-  `name: "Sync ${workflowConfig.sourceRepo}:${workflowConfig.sourceRepoBranch} to ${workflowConfig.destinationRepoBranch}"
+const getWorkflowFile = () =>
+  `name: "Sync repository"
 
 on:
   schedule:
@@ -17,20 +17,20 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: wei/github-sync@v1
-      name: repo-sync
+      name: Sync repository to branch
       env:
-        SOURCE_REPO: "${workflowConfig.sourceRepo}"
-        SOURCE_BRANCH: "${workflowConfig.sourceRepoBranch}"
-        DESTINATION_BRANCH: "${workflowConfig.destinationRepoBranch}"
+        SSH_PRIVATE_KEY: \${{ secrets.SOURCE_REPO_PRIVATE_KEY }}
+        SOURCE_REPO: \${{ secrets.SOURCE_REPO }}
+        SOURCE_BRANCH: \${{ secrets.SOURCE_BRANCH }}
+        DESTINATION_BRANCH: \${{ secrets.DESTINATION_BRANCH }}
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
         args: $SOURCE_REPO $SOURCE_BRANCH:$DESTINATION_BRANCH
     - uses: wei/pull-request@v1
-      name: repo-pr
+      name: Create pull request
       env:
-        SOURCE_BRANCH: "${workflowConfig.destinationRepoBranch}"
-        DESTINATION_BRANCH: "master"
-        PR_TITLE: "Pulling ${workflowConfig.destinationRepoBranch} into master"
+        SOURCE_BRANCH: \${{ secrets.DESTINATION_BRANCH }}
+        DESTINATION_BRANCH: \${{ secrets.PR_DESTINATION_BRANCH }}
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
 `
 
@@ -72,6 +72,8 @@ const SelectRepos = () => {
     window.open(newCommit.data.content.html_url, '_blank')
   }
 
+  const isSourceRepoPrivate = workflowConfig && (repos.find(r => r.full_name === workflowConfig.sourceRepo) || {}).private
+
   return (
     <Box as='form' p={4} mt={2} onSubmit={submitForm}>
       <BorderBox bg='gray.1' px={3} py={2}>
@@ -85,13 +87,60 @@ const SelectRepos = () => {
           <StyledOcticon icon={ArrowLeft} color='gray.6' />
         </Text>
         <TextInput name='source-repo' placeholder='Source Repository' list='repos' required />
-        <TextInput name='source-repo-branch' placeholder='Source Branch' required />
+        <TextInput name='source-repo-branch' placeholder='Source Branch' />
         <datalist id='repos'>
           {repos.map(r => <option key={r.full_name}>{r.full_name}</option>)}
         </datalist>
         <ButtonPrimary type='submit' ml={3}><StyledOcticon icon={Play} mr={1} /> Generate workflow</ButtonPrimary>
       </BorderBox>
-
+      
+      {
+        !workflowConfig ? null
+          : <>
+            <BorderBox mt={4}>
+              <Heading fontSize={2} px={3} py={2}>Add <Link href={`https://github.com/${workflowConfig.destinationRepo}/settings/secrets`} target="_blank">Secrets</Link></Heading>
+              <Box px={3} py={2}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th><Text fontWeight="bold">Name</Text></th>
+                      <th><Text fontWeight="bold">Value</Text></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      isSourceRepoPrivate ?
+                        <tr>
+                          <td><Text fontFamily="mono" pr={4}>SOURCE_REPO_PRIVATE_KEY</Text></td>
+                          <td><Text>Generate a pair of deploy keys, add private key secret, then add public key <Link href={`https://github.com/${workflowConfig.sourceRepo}/settings/keys`} target="_blank">here</Link></Text></td>
+                        </tr> : null
+                    }
+                    <tr>
+                      <td><Text fontFamily="mono">SOURCE_REPO</Text></td>
+                      <td><Text fontFamily="mono">{
+                        isSourceRepoPrivate
+                          ? `git@github.com:${workflowConfig.sourceRepo}.git`
+                          : workflowConfig.sourceRepo
+                      }</Text></td>
+                    </tr>
+                    <tr>
+                      <td><Text fontFamily="mono">SOURCE_BRANCH</Text></td>
+                      <td><Text fontFamily="mono">{workflowConfig.sourceRepoBranch}</Text></td>
+                    </tr>
+                    <tr>
+                      <td><Text fontFamily="mono">DESTINATION_BRANCH</Text></td>
+                      <td><Text fontFamily="mono">{workflowConfig.destinationRepoBranch}</Text></td>
+                    </tr>
+                    <tr>
+                      <td><Text fontFamily="mono" pr={4}>PR_DESTINATION_BRANCH</Text></td>
+                      <td><Text fontFamily="mono">master</Text></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </Box>
+            </BorderBox>
+          </>
+      }
       {
         !workflowConfig ? null
           : <>
@@ -110,7 +159,7 @@ const SelectRepos = () => {
                 newCommit === null
                   ? <Flash scheme='yellow'>
                     <ButtonPrimary mr={2} onClick={createFile}><StyledOcticon icon={FileCode} mr={1} /> Create file</ButtonPrimary>
-                    <Text>Create/overwrite this file in the default branch of <BranchName>{`${workflowConfig.destinationRepo}`}</BranchName>.</Text>
+                    <Text>Create/<strong>Overwrite</strong> this file in the default branch of <BranchName>{`${workflowConfig.destinationRepo}`}</BranchName>.</Text>
                   </Flash>
                   : newCommit && newCommit.data && newCommit.data.content
                     ? <Flash scheme='green'>
