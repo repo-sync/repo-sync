@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: wei/github-sync@master
+    - uses: wei/github-sync@v1
       name: repo-sync
       env:
         SOURCE_REPO: "${workflowConfig.sourceRepo}"
@@ -25,6 +25,13 @@ jobs:
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
         args: $SOURCE_REPO $SOURCE_BRANCH:$DESTINATION_BRANCH
+    - uses: wei/pull-request@v1
+      name: repo-pr
+      env:
+        SOURCE_BRANCH: "${workflowConfig.destinationRepoBranch}"
+        DESTINATION_BRANCH: "master"
+        PR_TITLE: "Pulling ${workflowConfig.destinationRepoBranch} into master"
+        GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
 `
 
 const SelectRepos = () => {
