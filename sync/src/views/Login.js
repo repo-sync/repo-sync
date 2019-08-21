@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { Button, Heading, Text } from '@primer/components'
+import { Text, Button } from '@primer/components'
 
 import useGlobal from '../store'
 
 const Login = () => {
-  const [globalState, globalActions] = useGlobal()
-  const { repos } = globalState
+  const [, globalActions] = useGlobal()
 
   const login = e => {
     e.preventDefault()
@@ -15,22 +14,17 @@ const Login = () => {
   useEffect(() => {
     const code = window.location.search.replace(/\??code=/, '')
     if (code) {
+      window.history.replaceState(null, null, window.location.pathname)
       globalActions.api.getToken(code)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (repos) {
-    window.location.href = '/repos'
-    return null
-  }
-
   return (
     <>
-      <Heading>
-        <Text>Login</Text>
-      </Heading>
-      <Button onClick={login}>Login with Github</Button>
+      <Text as='p' textAlign='center'>
+        <Button onClick={login}>Login with Github</Button>
+      </Text>
     </>
   )
 }
