@@ -41,7 +41,7 @@ const CreateWorkflow = ({ config }) => {
             Step 2. Create Workflow
           </Heading>
           <Text fontFamily='mono' fontSize={12} fontWeight='bold' >
-            <Label>Proposed</Label> .github/workflows/{defaultWorkflowFileName}
+            <Label>Draft</Label> .github/workflows/{defaultWorkflowFileName}
           </Text>
         </BorderBox>
         <Box px={3} py={2}>
@@ -53,7 +53,7 @@ const CreateWorkflow = ({ config }) => {
       {
         newCommit === null
           ? <Flash scheme='yellow'>
-            <ButtonPrimary mr={2} onClick={createFile}><StyledOcticon icon={FileCode} mr={1} /> Create file</ButtonPrimary>
+            <ButtonPrimary mr={2} onClick={createFile}><StyledOcticon icon={FileCode} mr={1} /> Create workflow</ButtonPrimary>
             <Text><strong>Create/Overwrite</strong> this file in the default branch of <BranchName>{`${config.destinationRepo}`}</BranchName>.</Text>
           </Flash>
           : newCommit && newCommit.data && newCommit.data.content
