@@ -5,7 +5,7 @@ import { GitCompare, ArrowLeft, Play, FileCode } from '@primer/octicons-react'
 import useGlobal from '../store'
 
 const getWorkflowFile = () =>
-  `name: "Sync repository"
+  `name: Sync repository
 
 on:
   schedule:
@@ -13,6 +13,7 @@ on:
 
 jobs:
   repo-sync:
+    name: Sync repository
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
