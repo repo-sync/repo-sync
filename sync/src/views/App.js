@@ -1,20 +1,13 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { BaseStyles, Heading } from '@primer/components'
-// import logo from '../logo.svg'
-import './App.css'
+import { Heading, Box } from '@primer/components'
 
 import useGlobal from '../store'
 
 import Login from './Login'
 import Repos from './Repos'
 
-function Index () {
-  return <Heading>Home</Heading>
-}
-
 function App () {
-  const [, globalActions] = useGlobal()
+  const [globalState, globalActions] = useGlobal()
 
   useEffect(() => {
     const token = window.sessionStorage.getItem('token')
@@ -25,22 +18,12 @@ function App () {
   }, [])
 
   return (
-    <Router>
-      <BaseStyles>
-        {/* <Heading>
-          <Text>Sync</Text>
-        </Heading> */}
-        {/* <UnderlineNav aria-label="Main">
-          <UnderlineNav.Link to="/" exact as={NavLink}>Home</UnderlineNav.Link>
-          <UnderlineNav.Link to="/repos/" as={NavLink}>Repos</UnderlineNav.Link>
-          <UnderlineNav.Link to="/login/" as={NavLink}>Login</UnderlineNav.Link>
-        </UnderlineNav> */}
-
-        <Route path='/' exact component={Index} />
-        <Route path='/repos/' component={Repos} />
-        <Route path='/login/' component={Login} />
-      </BaseStyles>
-    </Router>
+    <Box px={3} maxWidth={1012} mx={'auto'}>
+      <Heading textAlign='center' mb={4}>Sync App</Heading>
+      {
+        globalState.token ? <Repos /> : <Login />
+      }
+    </Box>
   )
 }
 

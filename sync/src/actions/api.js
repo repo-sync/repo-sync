@@ -6,7 +6,7 @@ let gh = new Github()
 export const login = async (store) => {
   window.location.href = 'https://github.com/login/oauth/authorize?' +
     [
-      `client_id=2c3a477a1979104da158`,
+      `client_id=${window.CLIENT_ID}`,
       `redirect_uri=${window.location.href}`,
       `scope=user%20repo`
     ].join('&')
@@ -14,16 +14,16 @@ export const login = async (store) => {
 
 export const getToken = async (store, code) => {
   const response = await axios.get(
-    `https://github-repo-sync-auth.herokuapp.com/authenticate/${code}`, {}
+    `${window.AUTH_ENDPOINT}${code}`, {}
   )
   const { token } = response.data || {}
+
   if (token) {
     window.sessionStorage.setItem('token', token)
     store.setState({ token })
     getRepos(store, token)
   } else {
     window.sessionStorage.removeItem('token')
-    window.location.href = '/login'
   }
 }
 
@@ -40,7 +40,6 @@ export const getRepos = async (store, token) => {
     console.error(error)
     store.setState({ profile: null })
     window.sessionStorage.removeItem('token')
-    window.location.href = '/login'
   }
 }
 
