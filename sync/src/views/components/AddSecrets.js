@@ -40,16 +40,8 @@ const AddSecrets = ({ config, isPrivate }) => {
                 }</Text></td>
               </tr>
               <tr>
-                <td><Text fontFamily='mono'>SOURCE_BRANCH</Text></td>
-                <td><Text fontFamily='mono'>{config.sourceRepoBranch}</Text></td>
-              </tr>
-              <tr>
-                <td><Text fontFamily='mono'>DESTINATION_BRANCH</Text></td>
-                <td><Text fontFamily='mono'>{config.destinationRepoBranch}</Text></td>
-              </tr>
-              <tr>
-                <td><Text fontFamily='mono' pr={4}>PR_DESTINATION_BRANCH</Text></td>
-                <td><Text fontFamily='mono'>master</Text></td>
+                <td><Text fontFamily='mono'>INTERMEDIATE_BRANCH</Text></td>
+                <td><Text fontFamily='mono'>{config.intermediateBranch}</Text></td>
               </tr>
             </tbody>
           </table>

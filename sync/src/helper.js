@@ -24,15 +24,15 @@ jobs:
       env:
         SSH_PRIVATE_KEY: \${{ secrets.SOURCE_REPO_PRIVATE_KEY }}
         SOURCE_REPO: \${{ secrets.SOURCE_REPO }}
-        SOURCE_BRANCH: \${{ secrets.SOURCE_BRANCH }}
-        DESTINATION_BRANCH: \${{ secrets.DESTINATION_BRANCH }}
+        SOURCE_BRANCH: "master"
+        INTERMEDIATE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH:$DESTINATION_BRANCH
+        args: $SOURCE_REPO $SOURCE_BRANCH:$INTERMEDIATE_BRANCH
     - uses: wei/pull-request@v1
       name: Create pull request
       env:
-        SOURCE_BRANCH: \${{ secrets.DESTINATION_BRANCH }}
-        DESTINATION_BRANCH: \${{ secrets.PR_DESTINATION_BRANCH }}
+        SOURCE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}
+        DESTINATION_BRANCH: "master"
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
 `

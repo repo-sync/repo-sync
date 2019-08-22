@@ -12,11 +12,15 @@ const SelectRepo = ({ repos }) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
+
+    if (formData.get('intermediate-branch') === 'master') {
+      return alert('Intermediate branch cannot be master')
+    }
+
     setConfig({
       destinationRepo: formData.get('destination-repo'),
-      destinationRepoBranch: formData.get('destination-repo-branch'),
-      sourceRepo: formData.get('source-repo'),
-      sourceRepoBranch: formData.get('source-repo-branch')
+      intermediateBranch: formData.get('intermediate-branch'),
+      sourceRepo: formData.get('source-repo')
     })
   }
 
@@ -30,12 +34,11 @@ const SelectRepo = ({ repos }) => {
             <StyledOcticon icon={GitCompare} color='gray.6' />
           </Text>
           <TextInput name='destination-repo' placeholder='Destination Repo' width={145} py={0} mr={1} list='repos' required />
-          <TextInput name='destination-repo-branch' placeholder='Branch' width={90} py={0} required />
+          <TextInput name='intermediate-branch' placeholder='Intermediate Branch' width={150} py={0} required />
           <Text mx={3}>
             <StyledOcticon icon={ArrowLeft} color='gray.6' />
           </Text>
           <TextInput name='source-repo' placeholder='Source Repo' width={145} py={0} mr={1} list='repos' required />
-          <TextInput name='source-repo-branch' placeholder='Branch' width={90} py={0} />
           <datalist id='repos'>
             {repos.map(r => <option key={r.full_name}>{r.full_name}</option>)}
           </datalist>
