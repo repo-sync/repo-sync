@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { Box, BorderBox, Text, StyledOcticon, ButtonPrimary, TextInput } from '@primer/components'
 import { GitCompare, ArrowLeft, Play } from '@primer/octicons-react'
+
 import AddSecrets from './AddSecrets'
 import CreateWorkflow from './CreateWorkflow'
 
 const SelectRepo = ({ repos }) => {
-  const [workflowConfig, setWorkflowConfig] = useState(null)
+  const [config, setConfig] = useState(null)
 
   const submitForm = e => {
     e.preventDefault()
+
     const formData = new FormData(e.target)
-    setWorkflowConfig({
+    setConfig({
       destinationRepo: formData.get('destination-repo'),
       destinationRepoBranch: formData.get('destination-repo-branch'),
       sourceRepo: formData.get('source-repo'),
@@ -18,7 +20,7 @@ const SelectRepo = ({ repos }) => {
     })
   }
 
-  const isSourceRepoPrivate = workflowConfig && (repos.find(r => r.full_name === workflowConfig.sourceRepo) || {}).private
+  const isSourceRepoPrivate = config && (repos.find(r => r.full_name === config.sourceRepo) || {}).private
 
   return (
     <Box as='form' mt={2} onSubmit={submitForm}>
@@ -41,8 +43,8 @@ const SelectRepo = ({ repos }) => {
         </Text>
       </BorderBox>
 
-      <AddSecrets key={`add-secrets-${JSON.stringify(workflowConfig)}`} config={workflowConfig} isPrivate={isSourceRepoPrivate} />
-      <CreateWorkflow key={`create-workflow-${JSON.stringify(workflowConfig)}`} config={workflowConfig} />
+      <AddSecrets key={`add-secrets-${JSON.stringify(config)}`} config={config} isPrivate={isSourceRepoPrivate} />
+      <CreateWorkflow key={`create-workflow-${JSON.stringify(config)}`} config={config} />
     </Box>
   )
 }
