@@ -2,18 +2,17 @@ import React, { useState } from 'react'
 import { Box, BorderBox, Heading, Text, StyledOcticon, ButtonPrimary, BranchName, Label, Flash } from '@primer/components'
 import { Play, FileCode } from '@primer/octicons-react'
 
-import useGlobal from '../../store'
+import { createFile } from '../../actions'
 import { defaultWorkflowFileName, getWorkflowFile } from '../../helper'
 
 const CreateWorkflow = ({ config }) => {
-  const [, globalActions] = useGlobal()
   const [newCommit, setNewCommit] = useState(null)
   let workflowField = null
 
-  const createFile = e => {
+  const createFileClick = e => {
     e.preventDefault()
 
-    globalActions.api.createFile(
+    createFile(
       config.destinationRepo,
       `.github/workflows/${defaultWorkflowFileName}`,
       workflowField.innerText)
@@ -25,7 +24,7 @@ const CreateWorkflow = ({ config }) => {
       })
   }
 
-  const openNewFile = e => {
+  const openNewFileClick = e => {
     e.preventDefault()
 
     window.open(newCommit.data.content.html_url, '_blank')
@@ -45,20 +44,20 @@ const CreateWorkflow = ({ config }) => {
           </Text>
         </BorderBox>
         <Box px={3} py={2}>
-          <pre ref={r => { workflowField = r }} contentEditable>
-            {getWorkflowFile(config)}
+          <pre ref={ref => { workflowField = ref }} contentEditable>
+            { getWorkflowFile(config) }
           </pre>
         </Box>
       </BorderBox>
       {
         newCommit === null
           ? <Flash scheme='yellow'>
-            <ButtonPrimary mr={2} onClick={createFile}><StyledOcticon icon={FileCode} mr={1} /> Create workflow</ButtonPrimary>
+            <ButtonPrimary mr={2} onClick={createFileClick}><StyledOcticon icon={FileCode} mr={1} /> Create workflow</ButtonPrimary>
             <Text><strong>Create/Overwrite</strong> this file in the default branch of <BranchName>{`${config.destinationRepo}`}</BranchName>.</Text>
           </Flash>
           : newCommit && newCommit.data && newCommit.data.content
             ? <Flash scheme='green'>
-              <ButtonPrimary mr={2} onClick={openNewFile}><StyledOcticon icon={Play} mr={1} /> View workflow</ButtonPrimary>
+              <ButtonPrimary mr={2} onClick={openNewFileClick}><StyledOcticon icon={Play} mr={1} /> View workflow</ButtonPrimary>
               <Text>The workflow has been created in <BranchName>{`${config.destinationRepo}`}</BranchName>.</Text>
             </Flash>
             : <Flash scheme='red'>
