@@ -15,8 +15,10 @@ export const login = async () => {
 
 export const getToken = async code => {
   const response = await axios.get(`${window.AUTH_ENDPOINT}${code}`)
-  const { token } = response.data || {}
+  const data = response.data || ''
 
+  // Cleanup full response from Github to get access_token
+  const token = (data.match(/access_token=(\w+)/) || {})[1]
   if (token) {
     window.sessionStorage.setItem('token', token)
     return token
