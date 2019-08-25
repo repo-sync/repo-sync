@@ -1,0 +1,8 @@
+{
+  "root": "build/",
+  "proxies": {
+    "/authenticate/": {
+      "origin": "https://github.com/login/oauth/access_token?client_id=${REACT_APP_CLIENT_ID}&client_secret=${REACT_APP_CLIENT_SECRET}&code="
+    }
+  }
+}

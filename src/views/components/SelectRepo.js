@@ -14,7 +14,7 @@ const SelectRepo = ({ repos }) => {
     const formData = new FormData(e.target)
 
     if (formData.get('intermediate-branch') === 'master') {
-      return alert('Intermediate branch cannot be master')
+      return window.alert('Intermediate branch cannot be master')
     }
 
     setConfig({

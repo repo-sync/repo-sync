@@ -2,6 +2,9 @@
   "name": "sync",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@primer/components": "^13.3.1",
     "@primer/octicons-react": "^9.1.1",
@@ -15,7 +18,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "lint": "eslint --ignore-path .gitignore .",
+    "test": "npm run lint && react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +35,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.19.1",
+    "react-test-renderer": "^16.9.0"
   }
 }
