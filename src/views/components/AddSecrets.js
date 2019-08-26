@@ -28,7 +28,13 @@ const AddSecrets = ({ config, isPrivate }) => {
                 isPrivate
                   ? <tr>
                     <td><Text fontFamily='mono' pr={4}>SOURCE_REPO_PRIVATE_KEY</Text></td>
-                    <td><Text>Generate a pair of deploy keys, add private key secret, then add public key <Link href={getRepoKeysUrl(config.sourceRepo)} target='_blank'>here</Link></Text></td>
+                    <td>
+                      <Text>
+                        <Link href='https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys' target='_blank'>
+                          Generate a pair of deploy keys
+                        </Link>, add private key secret, then add public key in <Link href={getRepoKeysUrl(config.sourceRepo)} target='_blank'>{config.sourceRepo}</Link>
+                      </Text>
+                    </td>
                   </tr> : null
               }
               <tr>
