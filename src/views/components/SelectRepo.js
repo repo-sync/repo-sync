@@ -12,16 +12,21 @@ const SelectRepo = ({ repos }) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
-
-    if (formData.get('intermediate-branch') === 'master') {
-      return window.alert('Intermediate branch cannot be master')
-    }
-
-    setConfig({
+    const config = {
       destinationRepo: formData.get('destination-repo'),
       intermediateBranch: formData.get('intermediate-branch'),
       sourceRepo: formData.get('source-repo')
-    })
+    }
+
+    if (config.intermediateBranch === 'master') {
+      return window.alert('Intermediate branch cannot be master. It needs to be unique and non-existent.')
+    }
+
+    if (config.destinationRepo === config.sourceRepo) {
+      return window.alert('Source repo and destination repo cannot be the same')
+    }
+
+    setConfig(config)
   }
 
   const isSourceRepoPrivate = config && (repos.find(r => r.full_name === config.sourceRepo) || {}).private

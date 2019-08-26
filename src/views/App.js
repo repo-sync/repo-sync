@@ -48,7 +48,7 @@ function App () {
   return (
     <Box px={3} maxWidth={1012} mx={'auto'}>
       <Heading textAlign='center' mb={4}>
-        Sync <img alt='Sync' src='https://cdn.jsdelivr.net/gh/feathericons/feather@v4/icons/git-pull-request.svg' />
+        Repo Sync <img alt='Repo Sync' src='https://cdn.jsdelivr.net/gh/feathericons/feather@v4/icons/git-pull-request.svg' />
       </Heading>
       {
         loadingToken ? <Text as='p' fontSize={2} textAlign='center' >Loading...</Text>

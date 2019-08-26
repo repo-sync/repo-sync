@@ -1,10 +1,10 @@
 export const defaultWorkflowFileName = 'repo-sync.yml'
 
-export const getRepoSSHCloneUrl = repo => `git@github.com:${repo}.git`
+export const getRepoCloneUrl = (repo, token) => `https://${token ? `<access_token>@` : ''}github.com/${repo}.git`
 
 export const getRepoSecretsUrl = repo => `https://github.com/${repo}/settings/secrets`
 
-export const getRepoKeysUrl = repo => `https://github.com/${repo}/settings/keys`
+export const getCreateUserTokenUrl = repo => `https://github.com/settings/tokens/new?description=repo-sync&scopes=repo`
 
 export const getWorkflowFile = () =>
   `name: Sync repository
@@ -22,7 +22,6 @@ jobs:
     - uses: wei/github-sync@v1
       name: Sync repository to branch
       env:
-        SSH_PRIVATE_KEY: \${{ secrets.SOURCE_REPO_PRIVATE_KEY }}
         SOURCE_REPO: \${{ secrets.SOURCE_REPO }}
         SOURCE_BRANCH: "master"
         INTERMEDIATE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}

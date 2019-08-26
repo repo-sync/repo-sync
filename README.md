@@ -1,4 +1,4 @@
-# Sync
+# Repo Sync
 
 > Keep a pair of GitHub repos in sync.
 
@@ -26,22 +26,19 @@ Go to Settings > Secrets under the destination repo, and add the following secre
 
 If source repo is a public Github repo:
 
-| Name | Value | 
-| --- | --- |
-| INTERMEDIATE_BRANCH | pending-changes |
-| SOURCE_REPO	| owner/repo |
+| Name | Value | Description |
+| --- | --- | --- |
+| SOURCE_REPO	| `owner/repo` | Repository slug |
+| INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
 
 If source repo is private or hosted elsewhere:
 
-> A pair of deploy keys should be generated following this [guide](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)
+| Name | Value | Description |
+| --- | --- | --- |
+| SOURCE_REPO	| `https://<access_token>@github.com/owner/repo.git` | HTTP clone url with access_token. [Get token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo) |
+| INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
 
-| Name | Value |
-| --- | --- |
-| INTERMEDIATE_BRANCH | pending-changes |
-| SOURCE_REPO	| git@github.com:owner/repo.git |
-| SOURCE_REPO_PRIVATE_KEY | `<Insert deploy key secret>` |
-
-> `INTERMEDIATE_BRANCH` should be a non-existent and uniquely named branch that will be created automatically under the destination repo
+> :warning: `INTERMEDIATE_BRANCH` should NOT already exist in destination repo as it will be overwritten.
 
 ### 2. Create workflow yaml
 
@@ -63,7 +60,6 @@ jobs:
     - uses: wei/github-sync@v1
       name: Sync repo to branch
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.SOURCE_REPO_PRIVATE_KEY }}
         SOURCE_REPO: ${{ secrets.SOURCE_REPO }}
         SOURCE_BRANCH: "master"
         INTERMEDIATE_BRANCH: ${{ secrets.INTERMEDIATE_BRANCH }}
@@ -88,7 +84,7 @@ The default cron is every 15 minutes. This can be easily adjusted by changing th
 
 #### External events
 
-In addition to triggering using the cron scheduler, you can setup [external events](https://help.github.com/en/articles/events-that-trigger-workflows#external-events) to trigger the workflow when source repo changes.
+Instead of triggering workflow using the cron scheduler, you can setup [external events](https://help.github.com/en/articles/events-that-trigger-workflows#external-events) to trigger the workflow when the source repo changes.
 
 #### Workflow steps
 
@@ -97,6 +93,10 @@ You can add/remove workflow steps to meet your needs. For example, the "Create p
 #### Customize pull request
 
 You can customize PR title, body, label, reviewer, assingee, milestone by setting environment variables as explained at [wei/pull-request](https://github.com/wei/pull-request#advanced-options).
+
+#### Use SSH clone url and deploy keys
+
+You can use SSH clone url and specify `SSH_PRIVATE_KEY` environment variable instead of using the https clone url.
 
 
 ## Front-end
