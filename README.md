@@ -5,6 +5,7 @@
 
 ## Features
 
+- Sync from a repo
 - Syncing between a private and public repo
 - Syncing between two private repos
 - Syncing from a third-party repo to a Github repo
@@ -12,6 +13,8 @@
 
 
 ## Installation
+
+> _Before you start:_ Make sure source and destination repos share a commit history
 
 Use the interactive installation guide [here](https://github-repo-sync.herokuapp.com)
 
