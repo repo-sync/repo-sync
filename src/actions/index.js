@@ -4,6 +4,8 @@ import Github from 'github-api'
 let gh = new Github()
 let ghUser = null
 
+export const getGH = () => gh
+
 export const login = async () => {
   window.location.href = 'https://github.com/login/oauth/authorize?' +
     [
@@ -14,7 +16,7 @@ export const login = async () => {
 }
 
 export const getToken = async code => {
-  const response = await axios.get(`${window.AUTH_ENDPOINT}${code}`)
+  const response = await axios.get(`${window.AUTH_ENDPOINT}${code || ''}`)
   const data = response.data || ''
 
   // Cleanup full response from Github to get access_token
@@ -35,9 +37,8 @@ export const getRepos = async token => {
     const repos = (await ghUser.listRepos()).data
     return repos
   } catch (error) {
-    console.error(error)
     window.sessionStorage.removeItem('token')
-    throw error
+    throw new Error('Failed to get repos')
   }
 }
 
@@ -53,7 +54,6 @@ export const createFile = async (repo, filePath, fileContent) => {
       committer: { name: name, email: email }
     })
   } catch (error) {
-    console.error(error)
-    throw error
+    throw new Error('Failed to create file')
   }
 }
