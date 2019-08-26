@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, BorderBox, Heading, Text, Link } from '@primer/components'
+import { Box, BorderBox, Heading, ButtonOutline, Text, Link } from '@primer/components'
 
-import { getRepoSecretsUrl, getRepoSSHCloneUrl, getRepoKeysUrl } from '../../helper'
+import { getRepoSecretsUrl, getRepoCloneUrl, getCreateUserTokenUrl } from '../../helper'
 
 const AddSecrets = ({ config, isPrivate }) => {
   if (!config) return null
@@ -21,33 +21,27 @@ const AddSecrets = ({ config, isPrivate }) => {
               <tr>
                 <th><Text fontWeight='bold'>Name</Text></th>
                 <th><Text fontWeight='bold'>Value</Text></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {
-                isPrivate
-                  ? <tr>
-                    <td><Text fontFamily='mono' pr={4}>SOURCE_REPO_PRIVATE_KEY</Text></td>
-                    <td>
-                      <Text>
-                        <Link href='https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys' target='_blank'>
-                          Generate a pair of deploy keys
-                        </Link>, add private key secret, then add public key in <Link href={getRepoKeysUrl(config.sourceRepo)} target='_blank'>{config.sourceRepo}</Link>
-                      </Text>
-                    </td>
-                  </tr> : null
-              }
               <tr>
-                <td><Text fontFamily='mono'>SOURCE_REPO</Text></td>
-                <td><Text fontFamily='mono'>{
+                <td><Text fontFamily='mono' pr={4}>SOURCE_REPO</Text></td>
+                <td><Text fontFamily='mono' pr={4}>{
                   isPrivate
-                    ? getRepoSSHCloneUrl(config.sourceRepo)
+                    ? getRepoCloneUrl(config.sourceRepo, true)
                     : config.sourceRepo
                 }</Text></td>
+                <td>{
+                  isPrivate
+                    ? <ButtonOutline ml={3} onClick={() => window.open(getCreateUserTokenUrl(), '_blank')}>Generate token</ButtonOutline>
+                    : null
+                }</td>
               </tr>
               <tr>
-                <td><Text fontFamily='mono'>INTERMEDIATE_BRANCH</Text></td>
-                <td><Text fontFamily='mono'>{config.intermediateBranch}</Text></td>
+                <td><Text fontFamily='mono' pr={4}>INTERMEDIATE_BRANCH</Text></td>
+                <td><Text fontFamily='mono' pr={4}>{config.intermediateBranch}</Text></td>
+                <td><Text>Pick a new branch name</Text></td>
               </tr>
             </tbody>
           </table>
