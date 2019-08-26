@@ -33,12 +33,12 @@ const SelectRepo = ({ repos }) => {
           <Text mr={3}>
             <StyledOcticon icon={GitCompare} color='gray.6' />
           </Text>
-          <TextInput name='destination-repo' placeholder='Destination Repo' width={145} py={0} mr={1} list='repos' required />
+          <TextInput name='destination-repo' placeholder='Destination Repo' width={175} py={0} mr={1} list='repos' required />
           <TextInput name='intermediate-branch' placeholder='Intermediate Branch' width={150} py={0} required />
           <Text mx={3}>
             <StyledOcticon icon={ArrowLeft} color='gray.6' />
           </Text>
-          <TextInput name='source-repo' placeholder='Source Repo' width={145} py={0} mr={1} list='repos' required />
+          <TextInput name='source-repo' placeholder='Source Repo' width={175} py={0} mr={1} list='repos' required />
           <datalist id='repos'>
             {repos.map(r => <option key={r.full_name}>{r.full_name}</option>)}
           </datalist>
