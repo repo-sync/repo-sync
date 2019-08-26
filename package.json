@@ -42,15 +42,14 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 85,
-        "functions": 85,
-        "lines": 85,
-        "statements": 85
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
       }
     }
   },
   "devDependencies": {
-    "http-proxy-middleware": "^0.19.1",
-    "react-test-renderer": "^16.9.0"
+    "http-proxy-middleware": "^0.19.1"
   }
 }
