@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: wei/github-sync@v1
+    - uses: repo-sync/github-sync@v1
       name: Sync repository to branch
       env:
         SOURCE_REPO: \${{ secrets.SOURCE_REPO }}
@@ -28,7 +28,7 @@ jobs:
         GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
         args: $SOURCE_REPO $SOURCE_BRANCH:$INTERMEDIATE_BRANCH
-    - uses: wei/pull-request@v1
+    - uses: repo-sync/pull-request@v1
       name: Create pull request
       env:
         SOURCE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}

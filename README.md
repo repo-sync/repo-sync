@@ -2,6 +2,8 @@
 
 > Keep a pair of GitHub repos in sync.
 
+:bulb::construction::bulb: Work in progress. Use at your own risk! :bulb::construction::bulb:
+
 
 ## Features
 
@@ -57,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: wei/github-sync@v1
+    - uses: repo-sync/github-sync@v1
       name: Sync repo to branch
       env:
         SOURCE_REPO: ${{ secrets.SOURCE_REPO }}
@@ -66,7 +68,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         args: $SOURCE_REPO $SOURCE_BRANCH:$INTERMEDIATE_BRANCH
-    - uses: wei/pull-request@v1
+    - uses: repo-sync/pull-request@v1
       name: Create pull request
       env:
         SOURCE_BRANCH: ${{ secrets.INTERMEDIATE_BRANCH }}
@@ -92,7 +94,7 @@ You can add/remove workflow steps to meet your needs. For example, the "Create p
 
 #### Customize pull request
 
-You can customize PR title, body, label, reviewer, assingee, milestone by setting environment variables as explained at [wei/pull-request](https://github.com/wei/pull-request#advanced-options).
+You can customize PR title, body, label, reviewer, assingee, milestone by setting environment variables as explained at [repo-sync/pull-request](https://github.com/repo-sync/pull-request#advanced-options).
 
 #### Use SSH clone url and deploy keys
 
