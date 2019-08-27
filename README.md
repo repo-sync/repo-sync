@@ -4,38 +4,41 @@
 
 :bulb::construction::bulb: Work in progress. Use at your own risk! :bulb::construction::bulb:
 
-
 ## Features
 
 - Sync from a repo
 - Syncing between a private and public repo
 - Syncing between two private repos
 - Syncing from a third-party repo to a Github repo
-- Utilizes Github Actions and scheduled job
+- Uses Github Actions and a scheduled job. No external service required!
 
+## Requirements
 
-## Installation
+- Your two repos must share a commit history.
+- Your repos must be using GitHub Actions v2. Sign up at [github.com/features/actions](https://github.com/features/actions)
 
-> _Before you start:_ Make sure source and destination repos share a commit history
+## Interactive Installation
 
-Use the interactive installation guide [here](https://github-repo-sync.herokuapp.com)
+The easiest way to set up Repo Sync is using the [interactive installation page](https://github-repo-sync.herokuapp.com). This page will ask you to authenticate with your GitHub account. Fill out the form, specifying source repo, target repo, and an intermediate branch name to use for pull requests. Once you've submitted this form, the page will generate [Actions workflow files](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file) for you, and can optionally automatically commit them directly to your repository.
 
-Alternatively, follow these steps:
+## Manual Installation
 
-### 1. Setup secrets
+If you'd prefer to set up your Actions workflows manually, that's also an option:
+
+### 1. Set up secrets
 
 Go to Settings > Secrets under the destination repo, and add the following secrets:
 
 If source repo is a public Github repo:
 
-| Name | Value | Description |
+| Name | Example Value | Description |
 | --- | --- | --- |
 | SOURCE_REPO	| `owner/repo` | Repository slug |
 | INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
 
-If source repo is private or hosted elsewhere:
+If source repo is private or not hosted on GitHub:
 
-| Name | Value | Description |
+| Name | Example Value | Description |
 | --- | --- | --- |
 | SOURCE_REPO	| `https://<access_token>@github.com/owner/repo.git` | HTTP clone url with access_token. [Get token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo) |
 | INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
@@ -44,7 +47,7 @@ If source repo is private or hosted elsewhere:
 
 ### 2. Create workflow yaml
 
-Add the following to `.github/workflow/repo-sync.yml` under the destination repo
+Add the following to `.github/workflow/repo-sync.yml` under the destination repo:
 
 ```yaml
 name: Sync repo
@@ -80,13 +83,13 @@ jobs:
 
 This workflow file is fully customizable allowing for advanced configurations.
 
-#### Cron
+#### cron
 
 The default cron is every 15 minutes. This can be easily adjusted by changing the cron string.
 
 #### External events
 
-Instead of triggering workflow using the cron scheduler, you can setup [external events](https://help.github.com/en/articles/events-that-trigger-workflows#external-events) to trigger the workflow when the source repo changes.
+Instead of triggering workflows using the cron scheduler, you can setup [external events](https://help.github.com/en/articles/events-that-trigger-workflows#external-events) to trigger the workflow when the source repo changes.
 
 #### Workflow steps
 
@@ -99,22 +102,3 @@ You can customize PR title, body, label, reviewer, assingee, milestone by settin
 #### Use SSH clone url and deploy keys
 
 You can use SSH clone url and specify `SSH_PRIVATE_KEY` environment variable instead of using the https clone url.
-
-
-## Front-end
-
-> This is not required to use Sync
-
-### Development
-
-1. Create a Github OAuth app with callback url `http://localhost:3000`
-2. Create .env from .env.example and fill out the values
-3. Run `sh script/server`
-
-### Production (Heroku)
-
-1. Create a heroku app
-2. Create a Github OAuth App with heroku app domain as the callback url
-3. Add config vars from .env under heroku app settings
-4. Add build packs `heroku/nodejs` and `https://github.com/wei/heroku-buildpack-static.git` under heroku app settings
-5. Deploy to Heroku
