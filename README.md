@@ -30,7 +30,7 @@ If you'd prefer to set up your Actions workflows manually, that's also an option
 
 Go to Settings > Secrets under the destination repo, and add the following secrets:
 
-If source repo is a public Github repo:
+If source repo is a public GitHub repo:
 
 | Name | Example Value | Description |
 | --- | --- | --- |
