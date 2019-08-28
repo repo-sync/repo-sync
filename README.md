@@ -1,4 +1,5 @@
 # Repo Sync
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 > Keep a pair of GitHub repos in sync.
 
@@ -102,3 +103,18 @@ You can customize PR title, body, label, reviewer, assingee, milestone by settin
 #### Use SSH clone url and deploy keys
 
 You can use SSH clone url and specify `SSH_PRIVATE_KEY` environment variable instead of using the https clone url.
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table>
+  <tr>
+    <td align="center"><a href="https://whe.me"><img src="https://avatars3.githubusercontent.com/u/5880908?v=4" width="100px;" alt="Wei He"/><br /><sub><b>Wei He</b></sub></a><br /><a href="#design-wei" title="Design">🎨</a> <a href="https://github.com/repo-sync/repo-sync/commits?author=wei" title="Code">💻</a> <a href="https://github.com/repo-sync/repo-sync/commits?author=wei" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
