@@ -41,7 +41,7 @@ const AddSecrets = ({ config, isPrivate }) => {
               <tr>
                 <td><Text fontFamily='mono' pr={4}>INTERMEDIATE_BRANCH</Text></td>
                 <td><Text fontFamily='mono' pr={4}>{config.intermediateBranch}</Text></td>
-                <td><Text>Pick a new branch name</Text></td>
+                <td><Text ml={3}>Pick a new branch name</Text></td>
               </tr>
             </tbody>
           </table>

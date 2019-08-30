@@ -7,7 +7,7 @@ export const getRepoSecretsUrl = repo => `https://github.com/${repo}/settings/se
 export const getCreateUserTokenUrl = repo => `https://github.com/settings/tokens/new?description=repo-sync&scopes=repo`
 
 export const getWorkflowFile = () =>
-  `name: Sync repository
+  `name: Repo Sync
 
 on:
   schedule: 
@@ -15,23 +15,21 @@ on:
 
 jobs:
   repo-sync:
-    name: Sync repository
+    name: Repo Sync
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: repo-sync/github-sync@v1
+    - uses: repo-sync/github-sync@v2
       name: Sync repository to branch
-      env:
-        SOURCE_REPO: \${{ secrets.SOURCE_REPO }}
-        SOURCE_BRANCH: "master"
-        INTERMEDIATE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}
-        GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH:$INTERMEDIATE_BRANCH
-    - uses: repo-sync/pull-request@v1
+        source_repo: \${{ secrets.SOURCE_REPO }}
+        source_branch: "master"
+        destination_branch: \${{ secrets.INTERMEDIATE_BRANCH }}
+        github_token: \${{ secrets.GITHUB_TOKEN }}
+    - uses: repo-sync/pull-request@v2
       name: Create pull request
-      env:
-        SOURCE_BRANCH: \${{ secrets.INTERMEDIATE_BRANCH }}
-        DESTINATION_BRANCH: "master"
-        GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+      with:
+        source_branch: \${{ secrets.INTERMEDIATE_BRANCH }}
+        destination_branch: "master"
+        github_token: \${{ secrets.GITHUB_TOKEN }}
 `

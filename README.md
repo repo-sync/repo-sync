@@ -51,7 +51,7 @@ If source repo is private or not hosted on GitHub:
 Add the following to `.github/workflow/repo-sync.yml` under the destination repo:
 
 ```yaml
-name: Sync repo
+name: Repo Sync
 
 on:
   schedule: 
@@ -59,25 +59,23 @@ on:
 
 jobs:
   repo-sync:
-    name: Sync repo
+    name: Repo Sync
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: repo-sync/github-sync@v1
+    - uses: repo-sync/github-sync@v2
       name: Sync repo to branch
-      env:
-        SOURCE_REPO: ${{ secrets.SOURCE_REPO }}
-        SOURCE_BRANCH: "master"
-        INTERMEDIATE_BRANCH: ${{ secrets.INTERMEDIATE_BRANCH }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH:$INTERMEDIATE_BRANCH
-    - uses: repo-sync/pull-request@v1
+        source_repo: ${{ secrets.SOURCE_REPO }}
+        source_branch: "master"
+        destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: repo-sync/pull-request@v2
       name: Create pull request
-      env:
-        SOURCE_BRANCH: ${{ secrets.INTERMEDIATE_BRANCH }}
-        DESTINATION_BRANCH: "master"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
+        destination_branch: "master"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Advanced configuration
