@@ -35,14 +35,14 @@ If source repo is a public GitHub repo:
 | Name | Example Value | Description |
 | --- | --- | --- |
 | SOURCE_REPO	| `owner/repo` | Repository slug |
-| INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
+| INTERMEDIATE_BRANCH | `repo-sync` | Branch name for pull requests |
 
 If source repo is private or not hosted on GitHub:
 
 | Name | Example Value | Description |
 | --- | --- | --- |
 | SOURCE_REPO	| `https://<access_token>@github.com/owner/repo.git` | HTTP clone url with access_token. [Get token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo) |
-| INTERMEDIATE_BRANCH | `repo-sync` | Pick a new branch name |
+| INTERMEDIATE_BRANCH | `repo-sync` | Branch name for pull requests |
 
 > :warning: `INTERMEDIATE_BRANCH` should NOT already exist in destination repo as it will be overwritten.
 
