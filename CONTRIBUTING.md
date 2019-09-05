@@ -6,7 +6,7 @@ Thanks for your interest in contributing to this project! Before making any cont
 
 ## Development
 
-1. Create a Github OAuth app with callback url `http://localhost:3000`
+1. Create a [Github OAuth app](https://github.com/settings/applications/new?oauth_application[name]=repo-sync-dev&oauth_application[callback_url]=http://localhost:3000&oauth_application[url]=http://localhost:3000&oauth_application[description]=app%20for%20testing%20repo-sync/repo-sync%20in%20development) with callback url `http://localhost:3000`
 2. Create .env from .env.example and fill out the values
 3. Run `script/server`
 
