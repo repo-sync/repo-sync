@@ -3,52 +3,46 @@
 
 > Keep a pair of GitHub repos in sync.
 
-:bulb::construction::bulb: Work in progress. Use at your own risk! :bulb::construction::bulb:
+## How it Works
+
+This project uses [GitHub Actions](https://github.com/features/actions) workflows to keep pairs of git repos in sync. It runs on a [schedule](#cron) (every 15 minutes by default). Shortly after changes are made to the default branch of **repo A**, the Actions workflow runs on **repo B** and generates a pull request including the recent changes from **repo A**. If more changes are made to **repo A** before the pull request is merged, those changes will be added to the existing pull request. The same is true in the opposite direction: changes made to **repo B** will eventually get picked up by the workflow in **repo A**. 
 
 ## Features
 
-- Sync from a repo
-- Syncing between a private and public repo
-- Syncing between two private repos
-- Syncing from a third-party repo to a Github repo
-- Uses Github Actions and a scheduled job. No external service required!
+- One-way or two-way sync
+- Sync between a private and public repo
+- Sync between two private repos
+- Sync between two public repos
+- Sync from a third-party repo to a Github repo
+- Uses Github Actions and a flexible scheduled job. No external service required!
 
 ## Requirements
 
 - Your two repos must share a commit history.
 - Your repos must be using GitHub Actions v2. Sign up at [github.com/features/actions](https://github.com/features/actions)
 
-## Interactive Installation
-
-The easiest way to set up Repo Sync is using the [interactive installation page](https://github-repo-sync.herokuapp.com). This page will ask you to authenticate with your GitHub account. Fill out the form, specifying source repo, target repo, and an intermediate branch name to use for pull requests. Once you've submitted this form, the page will generate [Actions workflow files](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file) for you, and can optionally automatically commit them directly to your repository.
-
 ## Manual Installation
 
-If you'd prefer to set up your Actions workflows manually, that's also an option:
+### Step 1. Set up Secrets
 
-### 1. Set up secrets
+[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) secrets are prequired on each repo. Go to Settings > Secrets on your repo page and add the following secrets:
 
-Go to Settings > Secrets under the destination repo, and add the following secrets:
+#### `SOURCE_REPO`
 
-If source repo is a public GitHub repo:
+The shorthand name or URL of the repo to sync.
 
-| Name | Example Value | Description |
-| --- | --- | --- |
-| SOURCE_REPO	| `owner/repo` | Repository slug |
-| INTERMEDIATE_BRANCH | `repo-sync` | Branch name for pull requests |
+- If the source repo is a **public** GitHub repo, use a shorthand name like `owner/repo`.
+- If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` scope. [Generate a token]((https://github.com/settings/tokens/new?description=repo-sync&scopes=repo)).
+- If the source repo is not hosted on GitHub, specify an HTTPS URL that includes pull access credentials.
 
-If source repo is private or not hosted on GitHub:
 
-| Name | Example Value | Description |
-| --- | --- | --- |
-| SOURCE_REPO	| `https://<access_token>@github.com/owner/repo.git` | HTTP clone url with access_token. [Get token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo) |
-| INTERMEDIATE_BRANCH | `repo-sync` | Branch name for pull requests |
+#### `INTERMEDIATE_BRANCH`
 
-> :warning: `INTERMEDIATE_BRANCH` should NOT already exist in destination repo as it will be overwritten.
+The name of the temporary branch to use when creating a pull request, e.g. `repo-sync`. You can use whatever name you like, but it should NOT be the name of a branch that already exists, as it will be overwritten.
 
-### 2. Create workflow yaml
+### Step 2. Create Actions workflow files
 
-Add the following to `.github/workflow/repo-sync.yml` under the destination repo:
+Create a file `.github/workflow/repo-sync.yml` in **both repositories** and add the following content:
 
 ```yaml
 name: Repo Sync
@@ -78,9 +72,20 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### Step 3. Watch the pull requests roll in!
+
+There is no step 3! Once commited to your repo, your workflows will start running on the schedule you've specified in the workflow file. Whenever changes are found, a pull request will be created (or updated if a sync pull request already exists).
+
+## Interactive Installation
+
+It's also possible to set up repo-sync using the [interactive installation page](https://github-repo-sync.herokuapp.com). This page will ask you to authenticate with your GitHub account. Once you're authenticated, fill out the form specifying source repo, target repo, and an intermediate branch name to use for pull requests. Once you've submitted this form, the page will generate [Actions workflow files](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file) for you, and can optionally automatically commit them directly to your repository.
+
+The interactive installation page is still new! It works but there may still be some rough edges. If you have any trouble, please [file an issue](https://github.com/repo-sync/repo-sync/issues). :seedling: 
+
+
 ## Advanced configuration
 
-This workflow file is fully customizable allowing for advanced configurations.
+The workflow file is fully customizable allowing for advanced configurations.
 
 #### cron
 
@@ -117,3 +122,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+[GitHub Secrets]: https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables
+[Actions workflow file]: https://help.github.com/en/articles/configuring-a-workflow
