@@ -25,7 +25,7 @@ This project uses [GitHub Actions](https://github.com/features/actions) workflow
 
 ### Step 1. Set up Secrets
 
-[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) secrets are prequired on each repo. Go to Settings > Secrets on your repo page and add the following secrets:
+[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) required secrets on each repo. Go to Settings > Secrets on your repo page and add the following secrets:
 
 #### `SOURCE_REPO`
 
