@@ -49,7 +49,7 @@ name: Repo Sync
 
 on:
   schedule: 
-  - cron: "*/15 * * * *"
+  - cron: "*/15 * * * *" # every 15 minutes. set to whatever interval you like
 
 jobs:
   repo-sync:
