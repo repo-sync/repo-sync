@@ -32,7 +32,7 @@ This project uses [GitHub Actions](https://github.com/features/actions) workflow
 The shorthand name or URL of the repo to sync.
 
 - If the source repo is a **public** GitHub repo, use a shorthand name like `owner/repo`.
-- If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` scope. [Generate a token]((https://github.com/settings/tokens/new?description=repo-sync&scopes=repo)).
+- If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` scope. [Generate a token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo).
 - If the source repo is not hosted on GitHub, specify an HTTPS URL that includes pull access credentials.
 
 
