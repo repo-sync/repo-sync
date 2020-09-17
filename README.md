@@ -61,14 +61,14 @@ jobs:
       name: Sync repo to branch
       with:
         source_repo: ${{ secrets.SOURCE_REPO }}
-        source_branch: "master"
+        source_branch: main
         destination_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: repo-sync/pull-request@v2
       name: Create pull request
       with:
         source_branch: ${{ secrets.INTERMEDIATE_BRANCH }}
-        destination_branch: "master"
+        destination_branch: main
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
