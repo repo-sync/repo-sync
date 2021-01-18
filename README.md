@@ -42,7 +42,7 @@ The name of the temporary branch to use when creating a pull request, e.g. `repo
 
 ### Step 2. Create Actions workflow files
 
-Create a file `.github/workflow/repo-sync.yml` in **both repositories** and add the following content:
+Create a file `.github/workflows/repo-sync.yml` in **both repositories** and add the following content:
 
 ```yaml
 name: Repo Sync
