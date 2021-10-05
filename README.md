@@ -35,6 +35,9 @@ The shorthand name or URL of the repo to sync.
 - If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` and `workflow` scopes. [Generate a token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo,workflow).
 - If the source repo is not hosted on GitHub, specify an HTTPS URL that includes pull access credentials.
 
+#### `TOKEN`
+
+Your personal GitHub token. Make sure that `repo` and `worfklow` permissions are enabled before creating the token.
 
 #### `INTERMEDIATE_BRANCH`
 
