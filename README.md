@@ -91,9 +91,9 @@ The workflow file is fully customizable allowing for advanced configurations.
 
 The default cron is every 15 minutes. This can be easily adjusted by changing the cron string.
 
-#### External events
+#### Manual events
 
-Instead of triggering workflows using the cron scheduler, you can setup [external events](https://help.github.com/en/articles/events-that-trigger-workflows#external-events) to trigger the workflow when the source repo changes.
+Instead of triggering workflows using the cron scheduler, you can setup [manual events](https://help.github.com/en/articles/events-that-trigger-workflows#manual-events) to trigger the workflow when the source repo changes.
 
 #### Workflow steps
 
