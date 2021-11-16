@@ -76,13 +76,6 @@ jobs:
 
 There is no step 3! Once commited to your repo, your workflows will start running on the schedule you've specified in the workflow file. Whenever changes are found, a pull request will be created (or updated if a sync pull request already exists).
 
-## Interactive Installation
-
-It's also possible to set up repo-sync using the [interactive installation page](https://github-repo-sync.herokuapp.com). This page will ask you to authenticate with your GitHub account. Once you're authenticated, fill out the form specifying source repo, target repo, and an intermediate branch name to use for pull requests. Once you've submitted this form, the page will generate [Actions workflow files](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file) for you, and can optionally automatically commit them directly to your repository.
-
-The interactive installation page is still new! It works but there may still be some rough edges. If you have any trouble, please [file an issue](https://github.com/repo-sync/repo-sync/issues). :seedling: 
-
-
 ## Advanced configuration
 
 The workflow file is fully customizable allowing for advanced configurations.
