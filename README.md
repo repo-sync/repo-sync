@@ -92,6 +92,10 @@ Instead of triggering workflows using the cron scheduler, you can setup [manual 
 
 You can add/remove workflow steps to meet your needs. For example, the "Create pull request" step can be removed, or perhaps a "Merge pull request" step can be added.
 
+#### One-Way Syncs
+
+For one-way syncs, set up the workflow in the target repository only as described above.
+
 #### Customize pull request
 
 You can customize PR title, body, label, reviewer, assingee, milestone by setting environment variables as explained at [repo-sync/pull-request](https://github.com/repo-sync/pull-request#advanced-options).
