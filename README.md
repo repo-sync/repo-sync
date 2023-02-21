@@ -94,7 +94,7 @@ You can add/remove workflow steps to meet your needs. For example, the "Create p
 
 #### One-Way Syncs
 
-For one-way syncs, just set up the workflow in the target repository only as described above.
+For one-way syncs, set up the workflow in the target repository only as described above.
 
 #### Customize pull request
 
