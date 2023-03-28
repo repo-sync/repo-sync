@@ -25,7 +25,7 @@ This project uses [GitHub Actions](https://github.com/features/actions) workflow
 
 ### Step 1. Set up Secrets
 
-[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) required secrets on each repo. Go to **Settings > Secrets** on your repo page and add the following secrets:
+[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) required secrets on each repo. Go to **Settings > Security > Secrets and variables > Actions > New repository secret** on your repo page and add the following secrets:
 
 #### `SOURCE_REPO`
 
@@ -56,7 +56,7 @@ jobs:
     name: Repo Sync
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: repo-sync/github-sync@v2
       name: Sync repo to branch
       with:
@@ -93,6 +93,10 @@ Instead of triggering workflows using the cron scheduler, you can set up [manual
 #### Workflow steps
 
 You can add or remove workflow steps to meet your needs. For example, you might remove the "Create pull request" to commit directly, or you could add a "Merge pull request" step.
+
+#### One-Way Syncs
+
+For one-way syncs, set up the workflow in the target repository only as described above.
 
 #### Customize pull request
 
