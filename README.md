@@ -98,9 +98,9 @@ You can add or remove workflow steps to meet your needs. For example, you might 
 
 You can customize the PR/s title, body, label, reviewer, assingee, and milestone by setting environment variables as explained at [repo-sync/pull-request](https://github.com/repo-sync/pull-request#advanced-options).
 
-#### Use SSH clone url and deploy keys
+#### Use SSH clone URL and deploy keys
 
-You can use a SSH clone url and specify an `SSH_PRIVATE_KEY` environment variable instead of using the https clone url.
+You can use a SSH clone URL and specify an `SSH_PRIVATE_KEY` environment variable instead of using the https clone URL.
 
 ## Contributors ✨
 
