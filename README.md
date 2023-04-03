@@ -18,27 +18,27 @@ This project uses [GitHub Actions](https://github.com/features/actions) workflow
 
 ## Requirements
 
-- Your two repos must share a commit history.
+- Your two repos must share a commit history. (If they do not already, you might need to [Combine Git repositories](https://gist.github.com/msrose/2feacb303035d11d2d05) before you begin.)
 - Your repos must be using GitHub Actions v2. Sign up at [github.com/features/actions](https://github.com/features/actions)
 
-## Manual Installation
+## Installation
 
 ### Step 1. Set up Secrets
 
-[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) required secrets on each repo. Go to `Settings > Security > Secrets and variables > Actions > New repository secret` on your repo page and add the following secrets:
+[GitHub Secrets] are variables stored on your GitHub repository that are made available in the GitHub Actions environment. There are two (2) required secrets on each repo. Go to **Settings > Security > Secrets and variables > Actions > New repository secret** on your repo page and add the following secrets:
 
 #### `SOURCE_REPO`
 
 The shorthand name or URL of the repo to sync.
 
 - If the source repo is a **public** GitHub repo, use a shorthand name like `owner/repo`.
-- If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` and `workflow` scopes. [Generate a token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo,workflow).
+- If the source repo is a **private** GitHub repo, specify an HTTPS clone URL in the format `https://<access_token>@github.com/owner/repo.git` that includes an access token with `repo` and `workflow` scopes. You can [generate a token](https://github.com/settings/tokens/new?description=repo-sync&scopes=repo,workflow) in your Github settings.
 - If the source repo is not hosted on GitHub, specify an HTTPS URL that includes pull access credentials.
 
 
 #### `INTERMEDIATE_BRANCH`
 
-The name of the temporary branch to use when creating a pull request, e.g. `repo-sync`. You can use whatever name you like, but it should NOT be the name of a branch that already exists, as it will be overwritten.
+The name of the temporary branch to use when creating a pull request, for example, `repo-sync`. You can use whatever name you like, but do NOT use the name of a branch that already exists, as it will be overwritten.
 
 ### Step 2. Create Actions workflow files
 
@@ -72,9 +72,11 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+To set up two-way sync, create these files in both repositories. To set up one-way sync, you only need to do this step in the target (destination) repository.
+
 ### Step 3. Watch the pull requests roll in!
 
-There is no step 3! Once commited to your repo, your workflows will start running on the schedule you've specified in the workflow file. Whenever changes are found, a pull request will be created (or updated if a sync pull request already exists).
+There is no step 3! Once you commit to the repo, the workflows run on the schedule you specified in the workflow file. When repo-sync finds changes, it creates a pull request. If an unmerged repo-sync pull request already exists on the destination repo, repo-sync updates the existing PR.
 
 ## Advanced configuration
 
@@ -86,11 +88,11 @@ The default cron is every 15 minutes. This can be easily adjusted by changing th
 
 #### Manual events
 
-Instead of triggering workflows using the cron scheduler, you can setup [manual events](https://help.github.com/en/articles/events-that-trigger-workflows#manual-events) to trigger the workflow when the source repo changes.
+Instead of triggering workflows using the cron scheduler, you can set up [manual events](https://help.github.com/en/articles/events-that-trigger-workflows#manual-events) to trigger the workflow when the source repo changes.
 
 #### Workflow steps
 
-You can add/remove workflow steps to meet your needs. For example, the "Create pull request" step can be removed, or perhaps a "Merge pull request" step can be added.
+You can add or remove workflow steps to meet your needs. For example, you might remove the "Create pull request" to commit directly, or you could add a "Merge pull request" step.
 
 #### One-Way Syncs
 
@@ -98,11 +100,12 @@ For one-way syncs, set up the workflow in the target repository only as describe
 
 #### Customize pull request
 
-You can customize PR title, body, label, reviewer, assingee, milestone by setting environment variables as explained at [repo-sync/pull-request](https://github.com/repo-sync/pull-request#advanced-options).
+You can customize the PR/s title, body, label, reviewer, assingee, and milestone by setting environment variables as explained at [repo-sync/pull-request](https://github.com/repo-sync/pull-request#advanced-options).
 
-#### Use SSH clone url and deploy keys
+#### Use SSH clone URL and deploy keys
 
-You can use SSH clone url and specify `SSH_PRIVATE_KEY` environment variable instead of using the https clone url.
+You can use a SSH clone URL and specify an `SSH_PRIVATE_KEY` environment variable instead of using the https clone URL.
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
